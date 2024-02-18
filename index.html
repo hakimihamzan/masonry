@@ -18,6 +18,7 @@
       <!-- start of code -->
       <div class="container">
         <div class="grid"></div>
+        <button id="load">Load More</button>
       </div>
       <!-- end of code -->
     </div>
@@ -37,33 +38,65 @@
     referrerpolicy="no-referrer"
   ></script>
   <!-- end of masonry -->
-  
+
   <!-- start of images data -->
   <script src="dominantData.js"></script>
   <!-- end of images data -->
 
   <script>
+    const imageLoadedPerClick = 6
+    // imageShown keeps track of how many images currently shown on screen
+    let imageShown = 0
+    let grid = $(".grid")
+    let loadButton = $("#load")
+
     // convert data to divElements
     let divElements = data.map((image) => {
-      return `<div class='grid-item'><img src="${image.path}"></div>`
-    })
+      if (imageShown >= imageLoadedPerClick) {
+        return
+      }
 
-    // get the .grid and append
-    let grid = $(".grid")
+      imageShown++
+      return `<div class='grid-item' onclick="zoomImage(event)"><img src="${image.path}"></div>`
+    })
 
     // append dynamic images to .grid
     grid.append(divElements)
 
     $(document).ready(function () {
       // init Masonry
-      grid.masonry({
-        itemSelector: ".grid-item",
-      })
+      grid.masonry({ itemSelector: ".grid-item", })
 
       // layout Masonry after each image loads
-      grid.imagesLoaded().progress(function () {
-        grid.masonry("layout")
-      })
+      grid.imagesLoaded().progress(function () { grid.masonry("layout") })
+
+      // assign click handler when button is clicked
+      loadButton.on("click", loadMoreImages)
     })
+
+    function zoomImage(e) {
+      console.log(e)
+    }
+
+    function loadMoreImages(e) {
+      if (data.length > imageShown) {
+        for (let i = 0; i < imageLoadedPerClick && (imageShown + i) < data.length; i++) {
+          let div = $(`<div class='grid-item' onclick="zoomImage(event)"><img src="${data[imageShown + i].path}"></div>`);
+          
+          grid.append( div ).masonry( 'appended', div );
+        }
+
+        // relaod masonry
+        grid.imagesLoaded().progress(function () {
+          grid.masonry("layout")
+        })
+
+        imageShown = imageShown + imageLoadedPerClick
+        
+        if (imageShown > data.length) {
+          loadButton.hide()
+        }
+      }
+    }
   </script>
 </html>
