@@ -5,6 +5,7 @@
 .grid-item {
   padding: 5px;
   width: 32%;
+  cursor: pointer;
 }
 
 .grid-item img {
@@ -12,8 +13,32 @@
   width: 100%;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .grid-item {
     width: 95%;
   }
+}
+
+.modal {
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.modal button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }

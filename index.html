@@ -20,6 +20,10 @@
         <div class="grid"></div>
         <button id="load">Load More</button>
       </div>
+      <div class="modal">
+        <img class="modalImage">
+        <button class="modalCloseButton">x</button>
+      </div>
       <!-- end of code -->
     </div>
   </body>
@@ -49,6 +53,7 @@
     let imageShown = 0
     let grid = $(".grid")
     let loadButton = $("#load")
+    let modalCloseButton = $(".modalCloseButton")
 
     // convert data to divElements
     let divElements = data.map((image) => {
@@ -72,10 +77,17 @@
 
       // assign click handler when button is clicked
       loadButton.on("click", loadMoreImages)
+      modalCloseButton.on("click", closeModal)
     })
 
     function zoomImage(e) {
-      console.log(e)
+      // change image in modal
+      $('.modalImage').attr('src', e.target.src);
+      $('.modal').css('visibility', 'visible');
+    }
+
+    function closeModal(e) {
+      $('.modal').css('visibility', 'hidden');
     }
 
     function loadMoreImages(e) {
