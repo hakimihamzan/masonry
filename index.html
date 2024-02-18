@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- jquery -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Masonry</title>
+  </head>
+  <body style="padding: 10px; background: rgba(110, 110, 110, 0.772)">
+    <div style="background: white; height: 95vh; overflow-y: auto">
+      <!-- start of code -->
+      <div class="container">
+        <div class="grid"></div>
+      </div>
+      <!-- end of code -->
+    </div>
+  </body>
+
+  <!-- start of masonry -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"
+    integrity="sha512-JRlcvSZAXT8+5SQQAvklXGJuxXTouyq8oIMaYERZQasB8SBDHZaUbeASsJWpk0UUrf89DP3/aefPPrlMR1h1yQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js"
+    integrity="sha512-kfs3Dt9u9YcOiIt4rNcPUzdyNNO9sVGQPiZsub7ywg6lRW5KuK1m145ImrFHe3LMWXHndoKo2YRXWy8rnOcSKg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <!-- end of masonry -->
+  
+  <!-- start of images data -->
+  <script src="dominantData.js"></script>
+  <!-- end of images data -->
+
+  <script>
+    // convert data to divElements
+    let divElements = data.map((image) => {
+      return `<div class='grid-item'><img src="${image.path}"></div>`
+    })
+
+    // get the .grid and append
+    let grid = $(".grid")
+
+    // append dynamic images to .grid
+    grid.append(divElements)
+
+    $(document).ready(function () {
+      // init Masonry
+      grid.masonry({
+        itemSelector: ".grid-item",
+      })
+
+      // layout Masonry after each image loads
+      grid.imagesLoaded().progress(function () {
+        grid.masonry("layout")
+      })
+    })
+  </script>
+</html>
